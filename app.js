@@ -407,7 +407,9 @@ async function downloadPDFs() {
       cartolaClone.style.transform = 'none';
       cartolaClone.style.margin = '0';
       cartolaClone.style.width = '100%';
+      cartolaClone.style.maxWidth = '100%';
       cartolaClone.style.height = '100%';
+      cartolaClone.style.overflow = 'hidden';
       cartolaClone.style.display = 'flex';
       
       cartolaContainer.appendChild(cartolaClone);
@@ -425,7 +427,8 @@ async function downloadPDFs() {
           useCORS: true, 
           logging: true,
           scrollX: 0,
-          scrollY: 0
+          scrollY: 0,
+          width: 1172 // force canvas width to 310mm (1172px) to prevent layout shifts
         },
         jsPDF: { unit: 'mm', format: [330, 216], orientation: 'landscape' }
       };
@@ -1823,7 +1826,7 @@ function generateSolicitudHTML(data, tipo) {
         </p>
       </div>
 
-      <div class="signature-line-block" style="margin-top: 60px; display: flex; justify-content: flex-end; font-family: Arial, sans-serif; margin-bottom: 10px !important;">
+      <div class="signature-line-block" style="margin-top: 60px; display: flex; justify-content: flex-end; font-family: Arial, sans-serif; margin-bottom: 0px !important;">
         <div class="signature-box" style="width: 220px; border-top: 1px solid #000; text-align: center; padding-top: 5px; font-size: 9pt; font-weight: bold; font-family: Arial, sans-serif;">
           FIRMA DEL SOLICITANTE
         </div>
