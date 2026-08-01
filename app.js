@@ -398,7 +398,7 @@ async function downloadPDFs() {
       cartolaContainer.style.backgroundColor = '#ffffff';
       cartolaContainer.style.color = '#000000';
       cartolaContainer.style.margin = '0 auto';
-      cartolaContainer.style.padding = '3px'; // 3px safety margin for borders
+      cartolaContainer.style.padding = '4px'; // 4px safety margin for borders
       cartolaContainer.style.boxSizing = 'border-box';
 
       // Clone preview inner content to avoid cloning transformed wrapper class
