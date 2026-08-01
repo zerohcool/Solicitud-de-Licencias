@@ -678,6 +678,7 @@ textarea:focus {
   min-height: 500px;
   max-height: 700px;
   overflow-y: auto;
+  overflow-x: hidden;
   border: 1px solid var(--border-color);
 }
 
