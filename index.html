@@ -308,8 +308,8 @@
                     <button type="submit" class="btn btn-success">
                       <span class="icon">💾</span> Guardar Historial
                     </button>
-                    <button type="button" class="btn btn-primary" onclick="window.print()">
-                      <span class="icon">🖨️</span> Imprimir Todo
+                    <button type="button" id="btn-download-pdf" class="btn btn-primary">
+                      <span class="icon">📥</span> Descargar en PDF
                     </button>
                   </div>
                 </div>
@@ -512,6 +512,9 @@
       </form>
     </div>
   </div>
+
+  <!-- PDF Generation Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <!-- Data files -->
   <script src="communes.js"></script>

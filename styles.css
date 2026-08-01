@@ -1351,3 +1351,9 @@ textarea:focus {
     visibility: visible !important;
   }
 }
+
+/* Page break utility for client-side PDF generation */
+.html2pdf__page-break {
+  page-break-after: always;
+  break-after: page;
+}

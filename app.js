@@ -342,6 +342,87 @@ function jsonDecode(str) {
   }
 }
 
+async function downloadPDFs() {
+  const data = getFormInputsData();
+  const workerName = (data.trabajador.nombre || "Documento").replace(/\s+/g, '_');
+  const workerRut = (data.trabajador.rut || "").replace(/[^0-9kK]/g, '');
+  const tipos = data.tramite.tipos.length > 0 ? data.tramite.tipos : ["MANIPULADOR DE EXPLOSIVOS"];
+
+  const downloadBtn = document.getElementById('btn-download-pdf');
+  const originalText = downloadBtn.innerHTML;
+  downloadBtn.innerHTML = '⏳ Generando PDFs...';
+  downloadBtn.disabled = true;
+
+  try {
+    for (let i = 0; i < tipos.length; i++) {
+      const tipo = tipos[i];
+      const suffix = tipos.length > 1 ? `_${tipo.replace(/\s+/g, '_')}` : '';
+
+      // 1. Generate Cartola (Oficio Horizontal: 330mm x 216mm)
+      const cartolaContainer = document.createElement('div');
+      cartolaContainer.style.width = '330mm';
+      cartolaContainer.style.height = '215mm';
+      cartolaContainer.style.position = 'absolute';
+      cartolaContainer.style.left = '-9999px';
+      cartolaContainer.style.top = '-9999px';
+      cartolaContainer.innerHTML = generateCartolaHTML(data, tipo);
+      document.body.appendChild(cartolaContainer);
+
+      const optCartola = {
+        margin: 0,
+        filename: `1_Cartola_${workerName}_${workerRut}${suffix}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, logging: false },
+        jsPDF: { unit: 'mm', format: [330, 216], orientation: 'landscape' }
+      };
+
+      await html2pdf().set(optCartola).from(cartolaContainer).save();
+      document.body.removeChild(cartolaContainer);
+
+      // 2. Generate Carta Pages (Solicitud, Induccion, Comandancia)
+      const cartaContainer = document.createElement('div');
+      cartaContainer.style.width = '215.9mm';
+      cartaContainer.style.position = 'absolute';
+      cartaContainer.style.left = '-9999px';
+      cartaContainer.style.top = '-9999px';
+      
+      const page1 = document.createElement('div');
+      page1.className = 'html2pdf__page-break';
+      page1.innerHTML = generateSolicitudHTML(data, tipo);
+      cartaContainer.appendChild(page1);
+
+      const page2 = document.createElement('div');
+      page2.className = 'html2pdf__page-break';
+      page2.innerHTML = generateInduccionHTML(data, tipo);
+      cartaContainer.appendChild(page2);
+
+      const page3 = document.createElement('div');
+      page3.innerHTML = generateComandanciaHTML(data, tipo);
+      cartaContainer.appendChild(page3);
+
+      document.body.appendChild(cartaContainer);
+
+      const optCarta = {
+        margin: 0,
+        filename: `2_Documentos_Carta_${workerName}_${workerRut}${suffix}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, logging: false },
+        jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'] }
+      };
+
+      await html2pdf().set(optCarta).from(cartaContainer).save();
+      document.body.removeChild(cartaContainer);
+    }
+  } catch (error) {
+    console.error("Error generating PDFs:", error);
+    alert("Hubo un error al generar los archivos PDF.");
+  } finally {
+    downloadBtn.innerHTML = originalText;
+    downloadBtn.disabled = false;
+  }
+}
+
 function setupEventListeners() {
   // Sidebar Collapse Toggle Logic
   const sidebarToggle = document.getElementById('sidebar-toggle');
@@ -502,6 +583,11 @@ function setupEventListeners() {
     const query = e.target.value.toLowerCase().trim();
     filterHistorial(query);
   });
+
+  const btnDownloadPDF = document.getElementById('btn-download-pdf');
+  if (btnDownloadPDF) {
+    btnDownloadPDF.addEventListener('click', downloadPDFs);
+  }
 }
 
 function setupModalEvents(modalId, openBtnId, formId, saveCallback) {
