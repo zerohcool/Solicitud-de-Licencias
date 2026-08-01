@@ -145,6 +145,14 @@ body {
   margin: 0;
 }
 
+.app-container.collapsed-sidebar .version-label {
+  display: none;
+}
+
+.app-container.collapsed-sidebar .version-prefix {
+  display: inline !important;
+}
+
 .logo-container {
   display: flex;
   align-items: center;
@@ -216,6 +224,15 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.web-version {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: -0.5rem;
+  opacity: 0.6;
+  font-weight: 500;
 }
 
 .theme-toggle-btn {
