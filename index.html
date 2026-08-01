@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Licencia de Manipulador - Generador de Formularios</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <div class="logo-icon">L</div>
+        <div class="logo-text">Licencia Web</div>
+      </div>
+      
+      <ul class="nav-menu">
+        <li class="nav-item active" data-tab="formulario">
+          <button>
+            <span class="icon">📝</span>
+            Formulario
+          </button>
+        </li>
+        <li class="nav-item" data-tab="historial">
+          <button>
+            <span class="icon">📁</span>
+            Historial
+          </button>
+        </li>
+        <li class="nav-item" data-tab="faenas">
+          <button>
+            <span class="icon">🏭</span>
+            Admin Faenas
+          </button>
+        </li>
+        <li class="nav-item" data-tab="prevencionistas">
+          <button>
+            <span class="icon">👷</span>
+            Admin Asesores
+          </button>
+        </li>
+      </ul>
+      
+      <div class="sidebar-footer">
+        <button class="theme-toggle-btn" id="theme-toggle">
+          <span class="icon">☀️</span>
+          Light Mode
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- TAB 1: FORMULARIO -->
+      <section id="tab-formulario" class="tab-content active">
+        <div class="page-header">
+          <h1 class="page-title">Generador de Documentos</h1>
+          <p class="page-subtitle">Rellene los datos para completar e imprimir las solicitudes de licencia.</p>
+        </div>
+
+        <div class="dashboard-grid">
+          <!-- Form Card -->
+          <div class="card">
+            <div class="form-progress-bar">
+              <div class="progress-step active" data-step="1">1</div>
+              <div class="progress-step" data-step="2">2</div>
+              <div class="progress-step" data-step="3">3</div>
+            </div>
+
+            <form id="licencia-form" autocomplete="off">
+              
+              <!-- STEP 1: Datos Personales -->
+              <div class="step-container active" id="step-1">
+                <h3 class="card-title" style="margin-bottom: 1.25rem;">Paso 1: Datos del Trabajador</h3>
+                <div class="form-grid">
+                  <div class="form-group full-width">
+                    <label for="trabajador_nombre">Nombre Completo (como figura en cédula)</label>
+                    <input type="text" id="trabajador_nombre" placeholder="HECTOR IVAN VARGAS GALINDO" required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="trabajador_rut">RUT Trabajador</label>
+                    <input type="text" id="trabajador_rut" class="rut-input" placeholder="10.095.773-6" required>
+                    <span id="rut-validation-msg" class="validation-msg"></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="trabajador_display_dob">Fecha de Nacimiento</label>
+                    <div class="custom-datepicker" id="datepicker-dob">
+                      <div class="input-group">
+                        <input type="text" id="trabajador_display_dob" class="datepicker-display" placeholder="DD/MM/AAAA" readonly required>
+                        <button type="button" class="datepicker-toggle-btn">📅</button>
+                      </div>
+                      <input type="hidden" id="trabajador_dob" required>
+                      <div class="calendar-popover">
+                        <div class="calendar-header">
+                          <button type="button" class="calendar-nav-btn prev-month">&lt;</button>
+                          <span class="calendar-title">Julio 2026</span>
+                          <button type="button" class="calendar-nav-btn next-month">&gt;</button>
+                        </div>
+                        <div class="calendar-weekdays">
+                          <span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span>
+                        </div>
+                        <div class="calendar-days"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="trabajador_nacionalidad">Nacionalidad</label>
+                    <input type="text" id="trabajador_nacionalidad" value="CHILENA" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="trabajador_sexo">Sexo</label>
+                    <select id="trabajador_sexo" required>
+                      <option value="MASCULINO">MASCULINO</option>
+                      <option value="FEMENINO">FEMENINO</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="trabajador_born_in">Nacido en (Ciudad/Comuna)</label>
+                    <input type="text" id="trabajador_born_in" placeholder="ANTOFAGASTA" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="trabajador_fono">Teléfono Celular (8 dígitos)</label>
+                    <div class="input-group">
+                      <span class="input-group-prefix">+56 9</span>
+                      <input type="text" id="trabajador_fono" class="input-with-prefix" placeholder="88464416" maxlength="8" pattern="[0-9]{8}" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group full-width">
+                    <label for="trabajador_domicilio">Domicilio Particular</label>
+                    <input type="text" id="trabajador_domicilio" placeholder="PASAJE ALTA TENSION 345, ANTOFAGASTA" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="trabajador_comuna">Comuna Domicilio</label>
+                    <input type="text" id="trabajador_comuna" placeholder="Escriba comuna..." list="comunas-list" required>
+                    <datalist id="comunas-list"></datalist>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="trabajador_provincia">Provincia (Autocompletado)</label>
+                    <input type="text" id="trabajador_provincia" readonly placeholder="Se autocompleta al elegir comuna">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="trabajador_region">Región (Autocompletado en números romanos)</label>
+                    <input type="text" id="trabajador_region" readonly placeholder="Se autocompleta al elegir comuna">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="trabajador_cargo">Cargo del Trabajador</label>
+                    <input type="text" id="trabajador_cargo" placeholder="MANIPULADOR DE EXPLOSIVOS" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="trabajador_escolaridad">Nivel de Escolaridad</label>
+                    <select id="trabajador_escolaridad" required>
+                      <option value="Básica Completa">Básica Completa</option>
+                      <option value="Media Completa" selected>Media Completa</option>
+                      <option value="Técnica Completa">Técnica Completa</option>
+                      <option value="Universitaria Completa">Universitaria Completa</option>
+                      <option value="Universitaria Incompleta">Universitaria Incompleta</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group full-width">
+                    <label for="trabajador_padre">Nombre del Padre</label>
+                    <input type="text" id="trabajador_padre" placeholder="JUAN VARGAS">
+                  </div>
+
+                  <div class="form-group full-width">
+                    <label for="trabajador_madre">Nombre de la Madre</label>
+                    <input type="text" id="trabajador_madre" placeholder="MARIA GALINDO">
+                  </div>
+                </div>
+
+                <div class="btn-group">
+                  <div></div>
+                  <button type="button" class="btn btn-primary btn-next" data-step="1">
+                    Siguiente paso <span class="icon">➡️</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- STEP 2: Faena e Inducción -->
+              <div class="step-container" id="step-2">
+                <h3 class="card-title" style="margin-bottom: 1.25rem;">Paso 2: Datos Laborales y Asesor HSEC</h3>
+                <div class="form-grid">
+                  <div class="form-group full-width">
+                    <label for="select_faena">Seleccionar Faena de Trabajo / Empleador</label>
+                    <select id="select_faena" required></select>
+                  </div>
+
+                  <div class="form-group full-width">
+                    <label for="select_prevencionista">Seleccionar Asesor HSEC (Prevencionista)</label>
+                    <select id="select_prevencionista" required></select>
+                  </div>
+
+                  <div class="form-group full-width">
+                    <label for="display_fecha_induccion">Fecha de Inducción Básica</label>
+                    <div class="custom-datepicker" id="datepicker-induccion">
+                      <div class="input-group">
+                        <input type="text" id="display_fecha_induccion" class="datepicker-display" placeholder="DD/MM/AAAA" readonly required>
+                        <button type="button" class="datepicker-toggle-btn">📅</button>
+                      </div>
+                      <input type="hidden" id="fecha_induccion" required>
+                      <div class="calendar-popover">
+                        <div class="calendar-header">
+                          <button type="button" class="calendar-nav-btn prev-month">&lt;</button>
+                          <span class="calendar-title">Julio 2026</span>
+                          <button type="button" class="calendar-nav-btn next-month">&gt;</button>
+                        </div>
+                        <div class="calendar-weekdays">
+                          <span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span>
+                        </div>
+                        <div class="calendar-days"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="btn-group">
+                  <button type="button" class="btn btn-prev" data-step="2">
+                    <span class="icon">⬅️</span> Volver
+                  </button>
+                  <button type="button" class="btn btn-primary btn-next" data-step="2">
+                    Siguiente paso <span class="icon">➡️</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- STEP 3: Configuración del Trámite y Generación -->
+              <div class="step-container" id="step-3">
+                <h3 class="card-title" style="margin-bottom: 1.25rem;">Paso 3: Trámite y Categorías</h3>
+                <div class="form-grid">
+                  <div class="form-group full-width">
+                    <label style="margin-bottom: 0.5rem; display:block;">Tipo de Licencia que Solicita (Seleccione las deseadas):</label>
+                    <div class="checkbox-group">
+                      <label class="checkbox-label">
+                        <input type="checkbox" id="tipo_manipulador" checked>
+                        <span>Manipulador de Explosivos</span>
+                      </label>
+                      <label class="checkbox-label">
+                        <input type="checkbox" id="tipo_programador">
+                        <span>Programador Calculista (Excluyente con Explosivos)</span>
+                      </label>
+                      <label class="checkbox-label">
+                        <input type="checkbox" id="tipo_quimicos">
+                        <span>Manipulador de Productos Químicos</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="display_fecha_tramite">Fecha de Solicitud</label>
+                    <div class="custom-datepicker" id="datepicker-tramite">
+                      <div class="input-group">
+                        <input type="text" id="display_fecha_tramite" class="datepicker-display" placeholder="DD/MM/AAAA" readonly required>
+                        <button type="button" class="datepicker-toggle-btn">📅</button>
+                      </div>
+                      <input type="hidden" id="fecha_tramite" required>
+                      <div class="calendar-popover">
+                        <div class="calendar-header">
+                          <button type="button" class="calendar-nav-btn prev-month">&lt;</button>
+                          <span class="calendar-title">Julio 2026</span>
+                          <button type="button" class="calendar-nav-btn next-month">&gt;</button>
+                        </div>
+                        <div class="calendar-weekdays">
+                          <span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span>
+                        </div>
+                        <div class="calendar-days"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="autoridad_fiscalizadora">Autoridad Fiscalizadora Competente</label>
+                    <input type="text" id="autoridad_fiscalizadora" value="CALAMA" required>
+                  </div>
+
+                  <div class="form-group" style="display: none;">
+                    <label for="n_registro_dgmn">Registro DGMN (Top-Right Cartola/Sol.)</label>
+                    <input type="text" id="n_registro_dgmn" placeholder="Ej: 12345 (Opcional)">
+                  </div>
+
+                  <div class="form-group" style="display: none;">
+                    <label for="n_certificado_comandancia">Certificado N° (Correlativo Automático)</label>
+                    <input type="text" id="n_certificado_comandancia" placeholder="Ej: 987">
+                  </div>
+                </div>
+
+                <div class="btn-group">
+                  <button type="button" class="btn btn-prev" data-step="3">
+                    <span class="icon">⬅️</span> Volver
+                  </button>
+                  <div style="display:flex; gap:0.5rem;">
+                    <button type="submit" class="btn btn-success">
+                      <span class="icon">💾</span> Guardar Historial
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="window.print()">
+                      <span class="icon">🖨️</span> Imprimir Todo
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </form>
+          </div>
+
+          <!-- Document Live Preview Panel -->
+          <div class="preview-panel-container">
+            <div class="preview-tabs">
+              <button class="preview-tab-btn active" data-doc="cartola">CARTOLA</button>
+              <button class="preview-tab-btn" data-doc="solicitud">SOLICITUD</button>
+              <button class="preview-tab-btn" data-doc="induccion">INDUCCIÓN</button>
+              <button class="preview-tab-btn" data-doc="comandancia">CERTIFICADO</button>
+            </div>
+
+            <div class="document-preview-wrapper">
+              <!-- Render visual copies on screen -->
+              <div id="preview-cartola" class="a4-preview-sheet cartola-preview"></div>
+              <div id="preview-solicitud" class="a4-preview-sheet carta-preview" style="display:none;"></div>
+              <div id="preview-induccion" class="a4-preview-sheet carta-preview" style="display:none;"></div>
+              <div id="preview-comandancia" class="a4-preview-sheet carta-preview" style="display:none;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: HISTORIAL -->
+      <section id="tab-historial" class="tab-content">
+        <div class="page-header">
+          <h1 class="page-title">Historial de Solicitudes</h1>
+          <p class="page-subtitle">Consulte o vuelva a imprimir solicitudes generadas anteriormente.</p>
+        </div>
+
+        <div class="card">
+          <div class="search-container">
+            <input type="text" id="historial-search" class="search-input" placeholder="Buscar por nombre o RUT del trabajador...">
+          </div>
+          <div class="history-list" id="history-list-container">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: ADMIN FAENAS -->
+      <section id="tab-faenas" class="tab-content">
+        <div class="page-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
+          <div>
+            <h1 class="page-title">Administración de Faenas / Empleadores</h1>
+            <p class="page-subtitle">Configure las faenas laborales y los datos comerciales del empleador.</p>
+          </div>
+          <button class="btn btn-primary" id="btn-add-faena">
+            <span class="icon">➕</span> Agregar Faena
+          </button>
+        </div>
+
+        <div class="card">
+          <table class="admin-table" id="table-faenas">
+            <thead>
+              <tr>
+                <th>Faena</th>
+                <th>Empleador</th>
+                <th>RUT Empleador</th>
+                <th>Domicilio</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 4: ADMIN PREVENCIONISTAS -->
+      <section id="tab-prevencionistas" class="tab-content">
+        <div class="page-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
+          <div>
+            <h1 class="page-title">Administración de Asesores HSEC</h1>
+            <p class="page-subtitle">Gestione la información y firmas de los prevencionistas habilitados.</p>
+          </div>
+          <div style="display:flex; gap: 0.5rem;">
+            <div class="form-group" style="flex-direction:row; align-items:center; gap:0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 0.25rem 0.75rem; border-radius:8px;">
+              <label for="next_cert_counter" style="white-space:nowrap;">Próximo Certificado N°:</label>
+              <input type="number" id="next_cert_counter" value="1" style="width: 80px; padding: 0.25rem 0.5rem; background: var(--bg-primary); border: 1px solid var(--border-color); color:var(--text-primary); border-radius:4px;">
+            </div>
+            <button class="btn btn-primary" id="btn-add-prevencionista">
+              <span class="icon">➕</span> Agregar Asesor
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <table class="admin-table" id="table-prevencionistas">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>RUT</th>
+                <th>Título</th>
+                <th>Registro SNS</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- hidden print area for window.print() -->
+  <div id="print-area">
+    <!-- Populated by JS right before printing -->
+  </div>
+
+  <!-- MODAL: AGREGAR/EDITAR FAENA -->
+  <div class="modal-overlay" id="modal-faena">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Configurar Faena / Empleador</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <form id="form-faena">
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label for="faena_nombre">Nombre de la Faena (Ej: MINERA SIERRA GORDA SCM)</label>
+            <input type="text" id="faena_nombre" required>
+          </div>
+          <div class="form-group full-width">
+            <label for="faena_direccion">Domicilio Laboral (Faena)</label>
+            <input type="text" id="faena_direccion" required>
+          </div>
+          <div class="form-group">
+            <label for="faena_comuna">Comuna Laboral</label>
+            <input type="text" id="faena_comuna" required>
+          </div>
+          <div class="form-group">
+            <label for="faena_area">Área de Trabajo</label>
+            <input type="text" id="faena_area" value="Mina" required>
+          </div>
+          <div class="form-group full-width">
+            <label for="faena_empleador">Nombre del Empleador (Empresa)</label>
+            <input type="text" id="faena_empleador" required>
+          </div>
+          <div class="form-group">
+            <label for="faena_rut">RUT Empleador</label>
+            <input type="text" id="faena_rut" required>
+          </div>
+          <div class="form-group">
+            <label for="faena_reg_nac">Reg. Nacional DGMN como</label>
+            <input type="text" id="faena_reg_nac" value="COMERCIANTE DE EXPLOSIVOS" required>
+          </div>
+          <div class="form-group full-width">
+            <label for="faena_n_reg">N° de Inscripción en Registro Nacional</label>
+            <input type="text" id="faena_n_reg" placeholder="70/007/00007" required>
+          </div>
+        </div>
+        <div class="btn-group">
+          <div></div>
+          <button type="submit" class="btn btn-primary">Guardar Faena</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: AGREGAR/EDITAR PREVENCIONISTA -->
+  <div class="modal-overlay" id="modal-prevencionista">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Configurar Asesor HSEC</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <form id="form-prevencionista">
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label for="prev_nombre">Nombre Completo Asesor</label>
+            <input type="text" id="prev_nombre" required>
+          </div>
+          <div class="form-group">
+            <label for="prev_rut">RUT Asesor</label>
+            <input type="text" id="prev_rut" required>
+          </div>
+          <div class="form-group">
+            <label for="prev_titulo">Título Profesional</label>
+            <input type="text" id="prev_titulo" value="Ingeniero en Prevención de Riesgos" required>
+          </div>
+          <div class="form-group full-width">
+            <label for="prev_sns">Registro SNS / Sernageomin / Resoluciones</label>
+            <input type="text" id="prev_sns" placeholder="REGISTRO SNS N° AN/P-2945 , Resolucion n° 8878" required>
+          </div>
+        </div>
+        <div class="btn-group">
+          <div></div>
+          <button type="submit" class="btn btn-primary">Guardar Asesor</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Data files -->
+  <script src="communes.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
