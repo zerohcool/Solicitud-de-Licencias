@@ -401,14 +401,14 @@ async function downloadPDFs() {
       cartolaContainer.style.overflow = 'hidden';
 
       // Clone preview inner content to avoid cloning transformed wrapper class
-      const cartolaClone = previewCartola.cloneNode(true);
+      const cartolaClone = previewCartola.firstElementChild.cloneNode(true);
       // Strip preview scaling styles and apply clean document sizing
       cartolaClone.className = 'printable-document cartola-doc';
       cartolaClone.style.transform = 'none';
-      cartolaClone.style.margin = '0 auto';
+      cartolaClone.style.margin = '1px auto'; // 1px margin top/bottom to center vertically
       cartolaClone.style.width = 'calc(100% - 2px)';
       cartolaClone.style.maxWidth = 'calc(100% - 2px)';
-      cartolaClone.style.height = '100%';
+      cartolaClone.style.height = 'calc(100% - 2px)'; // 2px vertical safety buffer for borders
       cartolaClone.style.overflow = 'hidden';
       cartolaClone.style.display = 'flex';
       
@@ -452,7 +452,7 @@ async function downloadPDFs() {
       cartaContainer.style.color = '#000000';
       cartaContainer.style.margin = '0 auto';
 
-      const page1 = previewSolicitud.cloneNode(true);
+      const page1 = previewSolicitud.firstElementChild.cloneNode(true);
       page1.className = 'printable-document solicitud-doc html2pdf__page-break';
       page1.style.transform = 'none';
       page1.style.margin = '0';
@@ -462,7 +462,7 @@ async function downloadPDFs() {
       page1.style.display = 'block';
       cartaContainer.appendChild(page1);
 
-      const page2 = previewInduccion.cloneNode(true);
+      const page2 = previewInduccion.firstElementChild.cloneNode(true);
       page2.className = 'printable-document induccion-doc html2pdf__page-break';
       page2.style.transform = 'none';
       page2.style.margin = '0';
@@ -472,7 +472,7 @@ async function downloadPDFs() {
       page2.style.display = 'block';
       cartaContainer.appendChild(page2);
 
-      const page3 = previewComandancia.cloneNode(true);
+      const page3 = previewComandancia.firstElementChild.cloneNode(true);
       page3.className = 'printable-document comandancia-doc';
       page3.style.transform = 'none';
       page3.style.margin = '0';
