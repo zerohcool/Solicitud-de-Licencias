@@ -394,7 +394,7 @@ async function downloadPDFs() {
       // Place it in the normal flow below the viewport fold
       cartolaContainer.style.position = 'relative';
       cartolaContainer.style.width = '310mm'; // 330mm - 10mm * 2 (margins left/right)
-      cartolaContainer.style.height = '176mm'; // 216mm - 20mm * 2 (margins top/bottom)
+      cartolaContainer.style.height = '196mm'; // 216mm - 10mm * 2 (margins top/bottom)
       cartolaContainer.style.backgroundColor = '#ffffff';
       cartolaContainer.style.color = '#000000';
       cartolaContainer.style.margin = '0 auto';
@@ -417,7 +417,7 @@ async function downloadPDFs() {
       await new Promise(resolve => setTimeout(resolve, 300));
 
       const optCartola = {
-        margin: [20, 10, 20, 10], // Margen: 2.0cm sup/inf, 1.0cm izq/der
+        margin: [10, 10, 10, 10], // Margen: 1.0cm sup/inf/izq/der (totalmente centrado)
         filename: `1_Cartola_${workerName}_${workerRut}${suffix}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
@@ -1715,16 +1715,16 @@ function generateSolicitudHTML(data, tipo) {
 
       <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; margin-bottom: 15px; font-size: 9.5pt; font-family: Arial, sans-serif;">
         <tr>
-          <td style="border: 1px solid #000; padding: 6px 8px; font-weight: normal; width: 12%;">FECHA:</td>
-          <td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; width: 18%;">${formatDateToLocal(tr.fechaTramite)}</td>
-          <td style="border: 1px solid #000; padding: 6px 8px; font-weight: normal; width: 30%;">COMPROBANTE DE PAGO N°:</td>
-          <td style="border: 1px solid #000; padding: 6px 8px; width: 15%;"></td>
+          <td style="border: 1px solid #000; padding: 6px 8px; font-weight: normal; width: 10%;">FECHA:</td>
+          <td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; width: 15%;">${formatDateToLocal(tr.fechaTramite)}</td>
+          <td style="border: 1px solid #000; padding: 6px 8px; font-weight: normal; width: 38%;">COMPROBANTE DE PAGO N°:</td>
+          <td style="border: 1px solid #000; padding: 6px 8px; width: 12%;"></td>
           <td style="border: 1px solid #000; padding: 6px 8px; font-weight: normal; width: 10%;">ITEM:</td>
           <td style="border: 1px solid #000; padding: 6px 8px; width: 15%;"></td>
         </tr>
         <tr>
-          <td colspan="2" style="border: 1px solid #000; padding: 6px 8px; font-weight: normal;">AUTORIDAD FISCALIZADORA:</td>
-          <td colspan="4" style="border: 1px solid #000; padding: 6px 8px; font-weight: normal;">${tr.autoridad || '&nbsp;'}</td>
+          <td colspan="3" style="border: 1px solid #000; padding: 6px 8px; font-weight: normal;">AUTORIDAD FISCALIZADORA:</td>
+          <td colspan="3" style="border: 1px solid #000; padding: 6px 8px; font-weight: normal;">${tr.autoridad || '&nbsp;'}</td>
         </tr>
       </table>
 
