@@ -1697,7 +1697,7 @@ function generateSolicitudHTML(data, tipo) {
   const subTitle = getSolicitudSubtitle(tipo);
 
   return `
-    <div class="printable-document solicitud-doc" style="width: 100%; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif !important; background-color: #fff; color: #000; padding: 15px 10px;">
+    <div class="printable-document solicitud-doc" style="width: 100%; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif !important; background-color: #fff; color: #000; padding: 15px 10px;padding-bottom:0">
       <div class="solicitud-header" style="position: relative; margin-bottom: 20px; font-family: Arial, sans-serif;">
         <div style="position: absolute; right: 0; top: 0; font-size: 11pt; font-weight: bold; padding: 4px 15px; width: 110px; height: 26px; box-sizing: border-box; line-height: 1.2;">
           N°__________ &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</div>
