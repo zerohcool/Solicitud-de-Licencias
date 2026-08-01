@@ -343,6 +343,8 @@ function jsonDecode(str) {
 }
 
 async function downloadPDFs() {
+  console.log("Iniciando descarga de PDFs...");
+  
   const data = getFormInputsData();
   const workerName = (data.trabajador.nombre || "Documento").replace(/\s+/g, '_');
   const workerRut = (data.trabajador.rut || "").replace(/[^0-9kK]/g, '');
@@ -380,21 +382,39 @@ async function downloadPDFs() {
       const tipo = tipos[i];
       const suffix = tipos.length > 1 ? `_${tipo.replace(/\s+/g, '_')}` : '';
 
+      // Force render previews on screen first to ensure DOM is fully up to date
+      renderPreviews();
+
       // 1. Generate Cartola (Oficio Horizontal: 330mm x 216mm)
+      // We clone the actual preview element which is already fully styled and filled
+      const previewCartola = document.getElementById('preview-cartola');
+      if (!previewCartola) throw new Error("No se encontró el elemento preview-cartola");
+
       const cartolaContainer = document.createElement('div');
+      // Place it in the normal flow below the viewport fold
+      cartolaContainer.style.position = 'relative';
       cartolaContainer.style.width = '330mm';
       cartolaContainer.style.height = '215mm';
-      cartolaContainer.style.position = 'fixed';
-      cartolaContainer.style.left = '0';
-      cartolaContainer.style.top = '0';
-      cartolaContainer.style.zIndex = '99990'; // High positive z-index, but below overlay
       cartolaContainer.style.backgroundColor = '#ffffff';
       cartolaContainer.style.color = '#000000';
-      cartolaContainer.innerHTML = generateCartolaHTML(data, tipo);
+      cartolaContainer.style.margin = '0 auto';
+      cartolaContainer.style.overflow = 'hidden';
+
+      // Clone preview inner content to avoid cloning transformed wrapper class
+      const cartolaClone = previewCartola.cloneNode(true);
+      // Strip preview scaling styles and apply clean document sizing
+      cartolaClone.className = 'printable-document cartola-doc';
+      cartolaClone.style.transform = 'none';
+      cartolaClone.style.margin = '0';
+      cartolaClone.style.width = '100%';
+      cartolaClone.style.height = '193mm';
+      cartolaClone.style.display = 'flex';
+      
+      cartolaContainer.appendChild(cartolaClone);
       document.body.appendChild(cartolaContainer);
 
       // Wait for layout reflow and rendering
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise(resolve => setTimeout(resolve, 300));
 
       const optCartola = {
         margin: 0,
@@ -403,7 +423,7 @@ async function downloadPDFs() {
         html2canvas: { 
           scale: 2, 
           useCORS: true, 
-          logging: false,
+          logging: true,
           scrollX: 0,
           scrollY: 0
         },
@@ -414,33 +434,46 @@ async function downloadPDFs() {
       document.body.removeChild(cartolaContainer);
 
       // 2. Generate Carta Pages (Solicitud, Induccion, Comandancia)
+      const previewSolicitud = document.getElementById('preview-solicitud');
+      const previewInduccion = document.getElementById('preview-induccion');
+      const previewComandancia = document.getElementById('preview-comandancia');
+
+      if (!previewSolicitud || !previewInduccion || !previewComandancia) {
+        throw new Error("No se encontraron los elementos de previsualización Carta");
+      }
+
       const cartaContainer = document.createElement('div');
+      cartaContainer.style.position = 'relative';
       cartaContainer.style.width = '215.9mm';
-      cartaContainer.style.position = 'fixed';
-      cartaContainer.style.left = '0';
-      cartaContainer.style.top = '0';
-      cartaContainer.style.zIndex = '99990'; // High positive z-index, but below overlay
       cartaContainer.style.backgroundColor = '#ffffff';
       cartaContainer.style.color = '#000000';
-      
-      const page1 = document.createElement('div');
-      page1.className = 'html2pdf__page-break';
-      page1.innerHTML = generateSolicitudHTML(data, tipo);
+      cartaContainer.style.margin = '0 auto';
+
+      const page1 = previewSolicitud.cloneNode(true);
+      page1.className = 'printable-document solicitud-doc html2pdf__page-break';
+      page1.style.transform = 'none';
+      page1.style.margin = '0';
+      page1.style.display = 'block';
       cartaContainer.appendChild(page1);
 
-      const page2 = document.createElement('div');
-      page2.className = 'html2pdf__page-break';
-      page2.innerHTML = generateInduccionHTML(data, tipo);
+      const page2 = previewInduccion.cloneNode(true);
+      page2.className = 'printable-document induccion-doc html2pdf__page-break';
+      page2.style.transform = 'none';
+      page2.style.margin = '0';
+      page2.style.display = 'block';
       cartaContainer.appendChild(page2);
 
-      const page3 = document.createElement('div');
-      page3.innerHTML = generateComandanciaHTML(data, tipo);
+      const page3 = previewComandancia.cloneNode(true);
+      page3.className = 'printable-document comandancia-doc';
+      page3.style.transform = 'none';
+      page3.style.margin = '0';
+      page3.style.display = 'block';
       cartaContainer.appendChild(page3);
 
       document.body.appendChild(cartaContainer);
 
       // Wait for layout reflow and rendering
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise(resolve => setTimeout(resolve, 300));
 
       const optCarta = {
         margin: 0,
@@ -449,7 +482,7 @@ async function downloadPDFs() {
         html2canvas: { 
           scale: 2, 
           useCORS: true, 
-          logging: false,
+          logging: true,
           scrollX: 0,
           scrollY: 0
         },
@@ -462,7 +495,7 @@ async function downloadPDFs() {
     }
   } catch (error) {
     console.error("Error generating PDFs:", error);
-    alert("Hubo un error al generar los archivos PDF.");
+    alert("Error al generar PDF: " + error.message + "\n\nDetalles: " + error.stack);
   } finally {
     document.body.removeChild(overlay);
     downloadBtn.innerHTML = originalText;
