@@ -362,11 +362,16 @@ async function downloadPDFs() {
       const cartolaContainer = document.createElement('div');
       cartolaContainer.style.width = '330mm';
       cartolaContainer.style.height = '215mm';
-      cartolaContainer.style.position = 'absolute';
-      cartolaContainer.style.left = '-9999px';
-      cartolaContainer.style.top = '-9999px';
+      cartolaContainer.style.position = 'fixed';
+      cartolaContainer.style.left = '0';
+      cartolaContainer.style.top = '0';
+      cartolaContainer.style.zIndex = '-9999';
+      cartolaContainer.style.backgroundColor = '#ffffff';
       cartolaContainer.innerHTML = generateCartolaHTML(data, tipo);
       document.body.appendChild(cartolaContainer);
+
+      // Wait for DOM rendering and layout reflow
+      await new Promise(resolve => setTimeout(resolve, 150));
 
       const optCartola = {
         margin: 0,
@@ -382,9 +387,11 @@ async function downloadPDFs() {
       // 2. Generate Carta Pages (Solicitud, Induccion, Comandancia)
       const cartaContainer = document.createElement('div');
       cartaContainer.style.width = '215.9mm';
-      cartaContainer.style.position = 'absolute';
-      cartaContainer.style.left = '-9999px';
-      cartaContainer.style.top = '-9999px';
+      cartaContainer.style.position = 'fixed';
+      cartaContainer.style.left = '0';
+      cartaContainer.style.top = '0';
+      cartaContainer.style.zIndex = '-9999';
+      cartaContainer.style.backgroundColor = '#ffffff';
       
       const page1 = document.createElement('div');
       page1.className = 'html2pdf__page-break';
@@ -401,6 +408,9 @@ async function downloadPDFs() {
       cartaContainer.appendChild(page3);
 
       document.body.appendChild(cartaContainer);
+
+      // Wait for DOM rendering and layout reflow
+      await new Promise(resolve => setTimeout(resolve, 150));
 
       const optCarta = {
         margin: 0,
