@@ -350,8 +350,30 @@ async function downloadPDFs() {
 
   const downloadBtn = document.getElementById('btn-download-pdf');
   const originalText = downloadBtn.innerHTML;
-  downloadBtn.innerHTML = '⏳ Generando PDFs...';
+  downloadBtn.innerHTML = '⏳ Generando...';
   downloadBtn.disabled = true;
+
+  // Create loading overlay to cover the viewport
+  const overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.left = '0';
+  overlay.style.top = '0';
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.backgroundColor = 'rgba(15, 23, 42, 0.98)';
+  overlay.style.zIndex = '99999';
+  overlay.style.display = 'flex';
+  overlay.style.flexDirection = 'column';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.color = '#ffffff';
+  overlay.style.fontFamily = 'Arial, sans-serif';
+  overlay.innerHTML = `
+    <div style="font-size: 2.5rem; margin-bottom: 1rem; animation: spin 2s linear infinite;">⏳</div>
+    <div style="font-size: 1.3rem; font-weight: bold; margin-bottom: 0.5rem;">Generando Documentos Oficiales</div>
+    <div style="font-size: 0.95rem; color: #94a3b8;">Por favor espere, descargando PDFs...</div>
+  `;
+  document.body.appendChild(overlay);
 
   try {
     for (let i = 0; i < tipos.length; i++) {
@@ -365,19 +387,26 @@ async function downloadPDFs() {
       cartolaContainer.style.position = 'fixed';
       cartolaContainer.style.left = '0';
       cartolaContainer.style.top = '0';
-      cartolaContainer.style.zIndex = '-9999';
+      cartolaContainer.style.zIndex = '99990'; // High positive z-index, but below overlay
       cartolaContainer.style.backgroundColor = '#ffffff';
+      cartolaContainer.style.color = '#000000';
       cartolaContainer.innerHTML = generateCartolaHTML(data, tipo);
       document.body.appendChild(cartolaContainer);
 
-      // Wait for DOM rendering and layout reflow
-      await new Promise(resolve => setTimeout(resolve, 150));
+      // Wait for layout reflow and rendering
+      await new Promise(resolve => setTimeout(resolve, 200));
 
       const optCartola = {
         margin: 0,
         filename: `1_Cartola_${workerName}_${workerRut}${suffix}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, logging: false },
+        html2canvas: { 
+          scale: 2, 
+          useCORS: true, 
+          logging: false,
+          scrollX: 0,
+          scrollY: 0
+        },
         jsPDF: { unit: 'mm', format: [330, 216], orientation: 'landscape' }
       };
 
@@ -390,8 +419,9 @@ async function downloadPDFs() {
       cartaContainer.style.position = 'fixed';
       cartaContainer.style.left = '0';
       cartaContainer.style.top = '0';
-      cartaContainer.style.zIndex = '-9999';
+      cartaContainer.style.zIndex = '99990'; // High positive z-index, but below overlay
       cartaContainer.style.backgroundColor = '#ffffff';
+      cartaContainer.style.color = '#000000';
       
       const page1 = document.createElement('div');
       page1.className = 'html2pdf__page-break';
@@ -409,14 +439,20 @@ async function downloadPDFs() {
 
       document.body.appendChild(cartaContainer);
 
-      // Wait for DOM rendering and layout reflow
-      await new Promise(resolve => setTimeout(resolve, 150));
+      // Wait for layout reflow and rendering
+      await new Promise(resolve => setTimeout(resolve, 200));
 
       const optCarta = {
         margin: 0,
         filename: `2_Documentos_Carta_${workerName}_${workerRut}${suffix}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, logging: false },
+        html2canvas: { 
+          scale: 2, 
+          useCORS: true, 
+          logging: false,
+          scrollX: 0,
+          scrollY: 0
+        },
         jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' },
         pagebreak: { mode: ['css', 'legacy'] }
       };
@@ -428,6 +464,7 @@ async function downloadPDFs() {
     console.error("Error generating PDFs:", error);
     alert("Hubo un error al generar los archivos PDF.");
   } finally {
+    document.body.removeChild(overlay);
     downloadBtn.innerHTML = originalText;
     downloadBtn.disabled = false;
   }
