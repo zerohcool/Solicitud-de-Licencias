@@ -428,8 +428,7 @@ async function downloadPDFs() {
           useCORS: true, 
           logging: true,
           scrollX: 0,
-          scrollY: 0,
-          width: 1172 // force canvas width to 310mm (1172px) to prevent layout shifts
+          scrollY: 0
         },
         jsPDF: { unit: 'mm', format: [330, 216], orientation: 'landscape' }
       };
