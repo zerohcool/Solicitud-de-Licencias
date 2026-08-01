@@ -1716,15 +1716,15 @@ function generateSolicitudHTML(data, tipo) {
       <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; margin-bottom: 15px; font-size: 9.5pt; font-family: Arial, sans-serif;">
         <tr>
           <td style="border: 1px solid #000; padding: 6px 8px; font-weight: normal; width: 10%;">FECHA:</td>
-          <td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; width: 15%;">${formatDateToLocal(tr.fechaTramite)}</td>
+          <td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; width: 20%;">${formatDateToLocal(tr.fechaTramite)}</td>
           <td style="border: 1px solid #000; padding: 6px 8px; font-weight: normal; width: 38%;">COMPROBANTE DE PAGO N°:</td>
           <td style="border: 1px solid #000; padding: 6px 8px; width: 12%;"></td>
           <td style="border: 1px solid #000; padding: 6px 8px; font-weight: normal; width: 10%;">ITEM:</td>
           <td style="border: 1px solid #000; padding: 6px 8px; width: 15%;"></td>
         </tr>
         <tr>
-          <td colspan="3" style="border: 1px solid #000; padding: 6px 8px; font-weight: normal;">AUTORIDAD FISCALIZADORA:</td>
-          <td colspan="3" style="border: 1px solid #000; padding: 6px 8px; font-weight: normal;">${tr.autoridad || '&nbsp;'}</td>
+          <td colspan="2" style="border: 1px solid #000; padding: 6px 8px; font-weight: normal;">AUTORIDAD FISCALIZADORA:</td>
+          <td colspan="4" style="border: 1px solid #000; padding: 6px 8px; font-weight: normal;">${tr.autoridad || '&nbsp;'}</td>
         </tr>
       </table>
 
