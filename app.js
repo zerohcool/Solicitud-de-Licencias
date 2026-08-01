@@ -1479,7 +1479,7 @@ function generateCartolaHTML(data, tipo) {
       </div>
 
       <!-- Bloque Inferior: Grilla de Actividades (Ancho completo) -->
-      <div style="flex: 1 1 auto; display: flex; align-items: stretch; padding: 15px 5px 10px 5px; height: 110mm; box-sizing: border-box;">
+      <div style="flex: 1 1 auto; display: flex; align-items: stretch; padding: 15px 5px 10px 5px; box-sizing: border-box;">
         <table style="width: 100%; border-collapse: collapse; height: 100%;">
           <tr>
             <!-- Columna 1: Actividades 1, 2, 3 -->
