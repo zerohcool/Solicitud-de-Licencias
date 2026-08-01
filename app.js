@@ -405,9 +405,9 @@ async function downloadPDFs() {
       // Strip preview scaling styles and apply clean document sizing
       cartolaClone.className = 'printable-document cartola-doc';
       cartolaClone.style.transform = 'none';
-      cartolaClone.style.margin = '0';
-      cartolaClone.style.width = '100%';
-      cartolaClone.style.maxWidth = '100%';
+      cartolaClone.style.margin = '0 auto';
+      cartolaClone.style.width = 'calc(100% - 2px)';
+      cartolaClone.style.maxWidth = 'calc(100% - 2px)';
       cartolaClone.style.height = '100%';
       cartolaClone.style.overflow = 'hidden';
       cartolaClone.style.display = 'flex';
