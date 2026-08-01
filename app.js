@@ -392,9 +392,7 @@ async function downloadPDFs() {
 
       const cartolaContainer = document.createElement('div');
       // Place it in the normal flow below the viewport fold
-      cartolaContainer.style.position = 'absolute';
-      cartolaContainer.style.left = '0';
-      cartolaContainer.style.top = '9999px';
+      cartolaContainer.style.position = 'relative';
       cartolaContainer.style.width = '304mm'; // 330mm - 13mm * 2 (margins left/right)
       cartolaContainer.style.height = '186mm'; // 216mm - 15mm * 2 (margins top/bottom)
       cartolaContainer.style.backgroundColor = '#ffffff';
