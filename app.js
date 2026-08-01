@@ -393,8 +393,8 @@ async function downloadPDFs() {
       const cartolaContainer = document.createElement('div');
       // Place it in the normal flow below the viewport fold
       cartolaContainer.style.position = 'relative';
-      cartolaContainer.style.width = '330mm';
-      cartolaContainer.style.height = '215mm';
+      cartolaContainer.style.width = '284mm'; // 330mm - 23mm * 2 (margins left/right)
+      cartolaContainer.style.height = '176mm'; // 216mm - 20mm * 2 (margins top/bottom)
       cartolaContainer.style.backgroundColor = '#ffffff';
       cartolaContainer.style.color = '#000000';
       cartolaContainer.style.margin = '0 auto';
@@ -407,7 +407,7 @@ async function downloadPDFs() {
       cartolaClone.style.transform = 'none';
       cartolaClone.style.margin = '0';
       cartolaClone.style.width = '100%';
-      cartolaClone.style.height = '193mm';
+      cartolaClone.style.height = '100%';
       cartolaClone.style.display = 'flex';
       
       cartolaContainer.appendChild(cartolaClone);
@@ -417,7 +417,7 @@ async function downloadPDFs() {
       await new Promise(resolve => setTimeout(resolve, 300));
 
       const optCartola = {
-        margin: 0,
+        margin: [20, 23, 20, 23], // Margen: 2.0cm sup/inf, 2.3cm izq/der
         filename: `1_Cartola_${workerName}_${workerRut}${suffix}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
@@ -444,7 +444,7 @@ async function downloadPDFs() {
 
       const cartaContainer = document.createElement('div');
       cartaContainer.style.position = 'relative';
-      cartaContainer.style.width = '215.9mm';
+      cartaContainer.style.width = '175.9mm'; // 215.9mm - 20mm * 2 (margins left/right)
       cartaContainer.style.backgroundColor = '#ffffff';
       cartaContainer.style.color = '#000000';
       cartaContainer.style.margin = '0 auto';
@@ -453,6 +453,9 @@ async function downloadPDFs() {
       page1.className = 'printable-document solicitud-doc html2pdf__page-break';
       page1.style.transform = 'none';
       page1.style.margin = '0';
+      page1.style.width = '100%';
+      page1.style.height = '239.4mm'; // 279.4mm - 20mm * 2 (margins top/bottom)
+      page1.style.overflow = 'hidden';
       page1.style.display = 'block';
       cartaContainer.appendChild(page1);
 
@@ -460,6 +463,9 @@ async function downloadPDFs() {
       page2.className = 'printable-document induccion-doc html2pdf__page-break';
       page2.style.transform = 'none';
       page2.style.margin = '0';
+      page2.style.width = '100%';
+      page2.style.height = '239.4mm'; // 279.4mm - 20mm * 2
+      page2.style.overflow = 'hidden';
       page2.style.display = 'block';
       cartaContainer.appendChild(page2);
 
@@ -467,6 +473,9 @@ async function downloadPDFs() {
       page3.className = 'printable-document comandancia-doc';
       page3.style.transform = 'none';
       page3.style.margin = '0';
+      page3.style.width = '100%';
+      page3.style.height = '239.4mm'; // 279.4mm - 20mm * 2
+      page3.style.overflow = 'hidden';
       page3.style.display = 'block';
       cartaContainer.appendChild(page3);
 
@@ -476,7 +485,7 @@ async function downloadPDFs() {
       await new Promise(resolve => setTimeout(resolve, 300));
 
       const optCarta = {
-        margin: 0,
+        margin: [20, 20, 20, 20], // Margen general: 2.0cm
         filename: `2_Documentos_Carta_${workerName}_${workerRut}${suffix}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
