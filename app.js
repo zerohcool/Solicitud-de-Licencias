@@ -398,18 +398,19 @@ async function downloadPDFs() {
       cartolaContainer.style.backgroundColor = '#ffffff';
       cartolaContainer.style.color = '#000000';
       cartolaContainer.style.margin = '0 auto';
-      cartolaContainer.style.overflow = 'hidden';
+      cartolaContainer.style.padding = '3px'; // 3px safety margin for borders
+      cartolaContainer.style.boxSizing = 'border-box';
 
       // Clone preview inner content to avoid cloning transformed wrapper class
       const cartolaClone = previewCartola.firstElementChild.cloneNode(true);
       // Strip preview scaling styles and apply clean document sizing
       cartolaClone.className = 'printable-document cartola-doc';
       cartolaClone.style.transform = 'none';
-      cartolaClone.style.margin = '1px auto'; // 1px margin top/bottom to center vertically
-      cartolaClone.style.width = 'calc(100% - 2px)';
-      cartolaClone.style.maxWidth = 'calc(100% - 2px)';
-      cartolaClone.style.height = 'calc(100% - 2px)'; // 2px vertical safety buffer for borders
-      cartolaClone.style.overflow = 'hidden';
+      cartolaClone.style.margin = '0';
+      cartolaClone.style.width = '100%';
+      cartolaClone.style.maxWidth = '100%';
+      cartolaClone.style.height = '100%';
+      cartolaClone.style.boxSizing = 'border-box';
       cartolaClone.style.display = 'flex';
       
       cartolaContainer.appendChild(cartolaClone);
