@@ -343,6 +343,23 @@ function jsonDecode(str) {
 }
 
 function setupEventListeners() {
+  // Sidebar Collapse Toggle Logic
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+  const appContainer = document.querySelector('.app-container');
+  
+  // Restore sidebar state from LocalStorage
+  const isSidebarCollapsed = localStorage.getItem('sidebar-collapsed') === 'true';
+  if (isSidebarCollapsed && appContainer) {
+    appContainer.classList.add('collapsed-sidebar');
+  }
+
+  if (sidebarToggle && appContainer) {
+    sidebarToggle.addEventListener('click', () => {
+      appContainer.classList.toggle('collapsed-sidebar');
+      const collapsed = appContainer.classList.contains('collapsed-sidebar');
+      localStorage.setItem('sidebar-collapsed', collapsed);
+    });
+  }
 
   const navButtons = document.querySelectorAll('.nav-item button');
   navButtons.forEach(btn => {

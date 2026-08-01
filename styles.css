@@ -53,6 +53,11 @@ body {
   display: grid;
   grid-template-columns: 260px 1fr;
   min-height: 100vh;
+  transition: grid-template-columns 0.3s ease;
+}
+
+.app-container.collapsed-sidebar {
+  grid-template-columns: 80px 1fr;
 }
 
 /* Sidebar navigation */
@@ -66,6 +71,78 @@ body {
   position: sticky;
   top: 0;
   height: 100vh;
+  transition: padding 0.3s ease;
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle-btn {
+  position: absolute;
+  right: -12px;
+  top: 2.25rem;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  z-index: 100;
+  transition: all 0.25s ease;
+  font-size: 0.7rem;
+  padding: 0;
+}
+
+.sidebar-toggle-btn:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-tertiary);
+  transform: scale(1.1);
+}
+
+.app-container.collapsed-sidebar .sidebar-toggle-btn {
+  transform: rotate(180deg);
+}
+
+.app-container.collapsed-sidebar .sidebar-toggle-btn:hover {
+  transform: scale(1.1) rotate(180deg);
+}
+
+/* Collapsed Sidebar overrides */
+.app-container.collapsed-sidebar .sidebar {
+  padding: 2rem 0.75rem;
+}
+
+.app-container.collapsed-sidebar .logo-text {
+  display: none;
+}
+
+.app-container.collapsed-sidebar .logo-container {
+  justify-content: center;
+}
+
+.app-container.collapsed-sidebar .nav-item button {
+  font-size: 0;
+  justify-content: center;
+  padding: 0.75rem 0;
+}
+
+.app-container.collapsed-sidebar .nav-item button .icon {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.app-container.collapsed-sidebar .theme-toggle-btn {
+  font-size: 0;
+  justify-content: center;
+  padding: 0.75rem 0;
+}
+
+.app-container.collapsed-sidebar .theme-toggle-btn .icon {
+  font-size: 1.2rem;
+  margin: 0;
 }
 
 .logo-container {
@@ -191,7 +268,7 @@ body {
 /* Dashboard Cards Grid */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 472px 1fr;
   gap: 2rem;
 }
 
