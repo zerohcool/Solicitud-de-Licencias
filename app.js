@@ -393,7 +393,7 @@ async function downloadPDFs() {
       const cartolaContainer = document.createElement('div');
       // Place it in the normal flow below the viewport fold
       cartolaContainer.style.position = 'relative';
-      cartolaContainer.style.width = '300mm'; // 330mm - 15mm * 2 (margins left/right)
+      cartolaContainer.style.width = '310mm'; // 330mm - 10mm * 2 (margins left/right)
       cartolaContainer.style.height = '176mm'; // 216mm - 20mm * 2 (margins top/bottom)
       cartolaContainer.style.backgroundColor = '#ffffff';
       cartolaContainer.style.color = '#000000';
@@ -417,7 +417,7 @@ async function downloadPDFs() {
       await new Promise(resolve => setTimeout(resolve, 300));
 
       const optCartola = {
-        margin: [20, 15, 20, 15], // Margen: 2.0cm sup/inf, 1.5cm izq/der
+        margin: [20, 10, 20, 10], // Margen: 2.0cm sup/inf, 1.0cm izq/der
         filename: `1_Cartola_${workerName}_${workerRut}${suffix}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
@@ -454,7 +454,7 @@ async function downloadPDFs() {
       page1.style.transform = 'none';
       page1.style.margin = '0';
       page1.style.width = '100%';
-      page1.style.height = '249.4mm'; // 279.4mm - 15mm * 2 (margins top/bottom)
+      page1.style.height = '269.4mm'; // 279.4mm - 5mm * 2 (margins top/bottom)
       page1.style.overflow = 'hidden';
       page1.style.display = 'block';
       cartaContainer.appendChild(page1);
@@ -464,7 +464,7 @@ async function downloadPDFs() {
       page2.style.transform = 'none';
       page2.style.margin = '0';
       page2.style.width = '100%';
-      page2.style.height = '249.4mm'; // 279.4mm - 15mm * 2
+      page2.style.height = '269.4mm'; // 279.4mm - 5mm * 2
       page2.style.overflow = 'hidden';
       page2.style.display = 'block';
       cartaContainer.appendChild(page2);
@@ -474,7 +474,7 @@ async function downloadPDFs() {
       page3.style.transform = 'none';
       page3.style.margin = '0';
       page3.style.width = '100%';
-      page3.style.height = '249.4mm'; // 279.4mm - 15mm * 2
+      page3.style.height = '269.4mm'; // 279.4mm - 5mm * 2
       page3.style.overflow = 'hidden';
       page3.style.display = 'block';
       cartaContainer.appendChild(page3);
@@ -485,7 +485,7 @@ async function downloadPDFs() {
       await new Promise(resolve => setTimeout(resolve, 300));
 
       const optCarta = {
-        margin: [15, 20, 15, 20], // Margen: 1.5cm sup/inf, 2.0cm izq/der
+        margin: [5, 20, 5, 20], // Margen: 0.5cm sup/inf, 2.0cm izq/der
         filename: `2_Documentos_Carta_${workerName}_${workerRut}${suffix}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
