@@ -408,6 +408,7 @@ async function downloadPDFs() {
       cartolaContainer.style.backgroundColor = '#ffffff';
       cartolaContainer.style.color = '#000000';
       cartolaContainer.style.display = 'flex';
+      cartolaContainer.style.padding = '1px'; // 1px safety padding to prevent children from overlapping the border
 
       // Clone preview inner content to avoid cloning transformed wrapper class
       const cartolaClone = previewCartola.firstElementChild.cloneNode(true);
@@ -421,6 +422,8 @@ async function downloadPDFs() {
       cartolaClone.style.boxSizing = 'border-box';
       cartolaClone.style.display = 'flex';
       cartolaClone.style.border = 'none'; // Remove the border from the clone to prevent double borders
+      cartolaClone.style.backgroundColor = 'transparent'; // Prevent background overlapping the parent border
+      cartolaClone.style.background = 'transparent';
       
       cartolaContainer.appendChild(cartolaClone);
       wrapper.appendChild(cartolaContainer);
