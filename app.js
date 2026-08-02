@@ -393,13 +393,14 @@ async function downloadPDFs() {
       const cartolaContainer = document.createElement('div');
       // Place it in the normal flow below the viewport fold
       cartolaContainer.style.position = 'relative';
-      cartolaContainer.style.width = '298mm'; // 330mm - 16mm * 2 (margins left/right with safety buffer)
+      cartolaContainer.style.width = '290mm'; // 330mm - 20mm * 2 (margins left/right with extra buffer for Windows)
       cartolaContainer.style.height = '186mm'; // 216mm - 15mm * 2 (margins top/bottom)
       cartolaContainer.style.backgroundColor = '#ffffff';
       cartolaContainer.style.color = '#000000';
       cartolaContainer.style.margin = '0';
       cartolaContainer.style.padding = '0'; // Remove padding to avoid clipping borders
       cartolaContainer.style.boxSizing = 'border-box';
+      cartolaContainer.style.overflow = 'hidden'; // Prevent any overflow
 
       // Clone preview inner content to avoid cloning transformed wrapper class
       const cartolaClone = previewCartola.firstElementChild.cloneNode(true);
@@ -420,15 +421,16 @@ async function downloadPDFs() {
       await new Promise(resolve => setTimeout(resolve, 300));
 
       const optCartola = {
-        margin: [15, 16, 15, 16], // Margen: 1.5cm sup/inf, 1.6cm izq/der (extra espacio para borders)
+        margin: [15, 20, 15, 20], // Margen: 1.5cm sup/inf, 2.0cm izq/der (extra espacio para Windows compatibility)
         filename: `1_Cartola_${workerName}_${workerRut}${suffix}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
-          scale: 2, 
+          scale: 1.5, // Reduced from 2 for Windows compatibility
           useCORS: true, 
           logging: true,
           scrollX: 0,
-          scrollY: 0
+          scrollY: 0,
+          allowTaint: true
         },
         jsPDF: { unit: 'mm', format: [330, 216], orientation: 'landscape' }
       };
@@ -492,11 +494,12 @@ async function downloadPDFs() {
         filename: `2_Documentos_Carta_${workerName}_${workerRut}${suffix}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
-          scale: 2, 
+          scale: 1.5, // Reduced from 2 for Windows compatibility
           useCORS: true, 
           logging: true,
           scrollX: 0,
-          scrollY: 0
+          scrollY: 0,
+          allowTaint: true
         },
         jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' },
         pagebreak: { mode: ['css', 'legacy'] }
