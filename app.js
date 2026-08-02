@@ -393,12 +393,12 @@ async function downloadPDFs() {
       const cartolaContainer = document.createElement('div');
       // Place it in the normal flow below the viewport fold
       cartolaContainer.style.position = 'relative';
-      cartolaContainer.style.width = '280mm'; // 330mm - 25mm * 2 (wider margins for Windows safety)
-      cartolaContainer.style.height = '185mm'; // Match the document height exactly
+      cartolaContainer.style.width = '304mm'; // 330mm - 13mm * 2 (margins left/right)
+      cartolaContainer.style.height = '186mm'; // 216mm - 15mm * 2 (margins top/bottom)
       cartolaContainer.style.backgroundColor = '#ffffff';
       cartolaContainer.style.color = '#000000';
-      cartolaContainer.style.margin = '0';
-      cartolaContainer.style.padding = '0';
+      cartolaContainer.style.margin = '0 auto';
+      cartolaContainer.style.padding = '4px'; // 4px safety buffer for borders
       cartolaContainer.style.boxSizing = 'border-box';
 
       // Clone preview inner content to avoid cloning transformed wrapper class
@@ -420,18 +420,17 @@ async function downloadPDFs() {
       await new Promise(resolve => setTimeout(resolve, 300));
 
       const optCartola = {
-        margin: [15, 25, 15, 25], // Margen: 1.5cm sup/inf, 2.5cm izq/der (extra buffer for borders)
+        margin: [15, 13, 15, 13], // Margen: 1.5cm sup/inf, 1.3cm izq/der (perfectamente centrado)
         filename: `1_Cartola_${workerName}_${workerRut}${suffix}.pdf`,
-        image: { type: 'jpeg', quality: 0.95 },
+        image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
-          scale: 1, // Use scale 1 for maximum compatibility
+          scale: 2, // High resolution crisp text
           useCORS: true, 
           logging: false,
           scrollX: 0,
           scrollY: 0,
           allowTaint: true,
-          backgroundColor: '#ffffff',
-          foreignObjectRendering: true
+          backgroundColor: '#ffffff'
         },
         jsPDF: { unit: 'mm', format: [330, 216], orientation: 'landscape' }
       };
@@ -450,10 +449,10 @@ async function downloadPDFs() {
 
       const cartaContainer = document.createElement('div');
       cartaContainer.style.position = 'relative';
-      cartaContainer.style.width = '165.9mm'; // 215.9mm - 25mm * 2 (wider margins for Windows)
+      cartaContainer.style.width = '175.9mm'; // 215.9mm - 20mm * 2 (margins left/right)
       cartaContainer.style.backgroundColor = '#ffffff';
       cartaContainer.style.color = '#000000';
-      cartaContainer.style.margin = '0';
+      cartaContainer.style.margin = '0 auto';
 
       const page1 = previewSolicitud.firstElementChild.cloneNode(true);
       page1.className = 'printable-document solicitud-doc html2pdf__page-break';
@@ -491,18 +490,17 @@ async function downloadPDFs() {
       await new Promise(resolve => setTimeout(resolve, 300));
 
       const optCarta = {
-        margin: [5, 25, 5, 25], // Margen: 0.5cm sup/inf, 2.5cm izq/der
+        margin: [5, 20, 5, 20], // Margen: 0.5cm sup/inf, 2.0cm izq/der
         filename: `2_Documentos_Carta_${workerName}_${workerRut}${suffix}.pdf`,
-        image: { type: 'jpeg', quality: 0.95 },
+        image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
-          scale: 1, // Use scale 1 for maximum compatibility
+          scale: 2, // Crisp 2x scaling
           useCORS: true, 
           logging: false,
           scrollX: 0,
           scrollY: 0,
           allowTaint: true,
-          backgroundColor: '#ffffff',
-          foreignObjectRendering: true
+          backgroundColor: '#ffffff'
         },
         jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' },
         pagebreak: { mode: ['css', 'legacy'] }
@@ -1433,21 +1431,27 @@ function generateCartolaHTML(data, tipo) {
             </table>
             
             <!-- Fila Inferior: Tabla de Metadatos (4 Columnas) -->
-            <table style="width: 100%; border-collapse: collapse; font-size: 8pt; line-height: 1.45; font-family: Arial, sans-serif; margin-top: 5px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 8pt; line-height: 1.45; font-family: Arial, sans-serif; margin-top: 5px; table-layout: fixed;">
+              <colgroup>
+                <col style="width: 30%;">
+                <col style="width: 32%;">
+                <col style="width: 26%;">
+                <col style="width: 12%;">
+              </colgroup>
               <tr>
-                <td style="width: 25%; font-weight: normal; padding: 1px 0;">NOMBRE COMPLETO:</td>
+                <td style="font-weight: normal; padding: 1px 0;">NOMBRE COMPLETO:</td>
                 <td colspan="3" style="font-weight: bold; padding: 1px 0;">${t.nombre || '&nbsp;'}</td>
               </tr>
               <tr>
                 <td style="font-weight: normal; padding: 1px 0;">R.U.T. Nº:</td>
-                <td style="font-weight: bold; width: 38%; padding: 1px 0;">${t.rut || '&nbsp;'}</td>
-                <td style="width: 22%; font-weight: normal; padding: 1px 0; text-align: left;">FONO:</td>
-                <td style="width: 15%; font-weight: bold; padding: 1px 0;">${t.fono || '&nbsp;'}</td>
+                <td style="font-weight: bold; padding: 1px 0;">${t.rut || '&nbsp;'}</td>
+                <td style="font-weight: normal; padding: 1px 0; text-align: left;">FONO:</td>
+                <td style="font-weight: bold; padding: 1px 0;">${t.fono || '&nbsp;'}</td>
               </tr>
               <tr>
                 <td style="font-weight: normal; padding: 1px 0;">NACIDO EN:</td>
                 <td style="font-weight: bold; padding: 1px 0;">${t.bornIn || '&nbsp;'}</td>
-                <td style="font-weight: normal; padding: 1px 0; text-align: left; white-space: nowrap;">FECHA DE NACIMIENTO:</td>
+                <td style="font-weight: normal; padding: 1px 0; text-align: left;">FECHA DE NACIMIENTO:</td>
                 <td style="font-weight: bold; padding: 1px 0;">${formatDateToLocal(t.dob) || '&nbsp;'}</td>
               </tr>
               <tr>
