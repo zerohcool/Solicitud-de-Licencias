@@ -398,7 +398,7 @@ async function downloadPDFs() {
       wrapper.style.backgroundColor = '#ffffff';
       wrapper.style.padding = '5px'; // 5px safety buffer to keep the border fully inside the canvas
       wrapper.style.boxSizing = 'border-box';
-      wrapper.style.margin = '0 auto';
+      wrapper.style.margin = '0';
 
       const cartolaContainer = document.createElement('div');
       cartolaContainer.style.width = '100%';
@@ -465,7 +465,7 @@ async function downloadPDFs() {
       cartaContainer.style.width = '175.9mm'; // 215.9mm - 20mm * 2 (margins left/right)
       cartaContainer.style.backgroundColor = '#ffffff';
       cartaContainer.style.color = '#000000';
-      cartaContainer.style.margin = '0 auto';
+      cartaContainer.style.margin = '0';
 
       const page1 = previewSolicitud.firstElementChild.cloneNode(true);
       page1.className = 'printable-document solicitud-doc html2pdf__page-break';
