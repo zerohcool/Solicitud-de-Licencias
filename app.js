@@ -393,12 +393,12 @@ async function downloadPDFs() {
       const cartolaContainer = document.createElement('div');
       // Place it in the normal flow below the viewport fold
       cartolaContainer.style.position = 'relative';
-      cartolaContainer.style.width = '304mm'; // 330mm - 13mm * 2 (margins left/right)
+      cartolaContainer.style.width = '298mm'; // 330mm - 16mm * 2 (margins left/right with safety buffer)
       cartolaContainer.style.height = '186mm'; // 216mm - 15mm * 2 (margins top/bottom)
       cartolaContainer.style.backgroundColor = '#ffffff';
       cartolaContainer.style.color = '#000000';
       cartolaContainer.style.margin = '0';
-      cartolaContainer.style.padding = '4px'; // 4px safety margin for borders
+      cartolaContainer.style.padding = '0'; // Remove padding to avoid clipping borders
       cartolaContainer.style.boxSizing = 'border-box';
 
       // Clone preview inner content to avoid cloning transformed wrapper class
@@ -420,7 +420,7 @@ async function downloadPDFs() {
       await new Promise(resolve => setTimeout(resolve, 300));
 
       const optCartola = {
-        margin: [15, 13, 15, 13], // Margen: 1.5cm sup/inf, 1.3cm izq/der (perfectamente centrado)
+        margin: [15, 16, 15, 16], // Margen: 1.5cm sup/inf, 1.6cm izq/der (extra espacio para borders)
         filename: `1_Cartola_${workerName}_${workerRut}${suffix}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
