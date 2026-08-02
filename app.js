@@ -390,16 +390,24 @@ async function downloadPDFs() {
       const previewCartola = document.getElementById('preview-cartola');
       if (!previewCartola) throw new Error("No se encontró el elemento preview-cartola");
 
+      // Create a wrapper to act as the padded canvas
+      const wrapper = document.createElement('div');
+      wrapper.style.position = 'relative';
+      wrapper.style.width = '304mm'; // 330mm - 13mm * 2 (margins left/right)
+      wrapper.style.height = '186mm'; // 216mm - 15mm * 2 (margins top/bottom)
+      wrapper.style.backgroundColor = '#ffffff';
+      wrapper.style.padding = '5px'; // 5px safety buffer to keep the border fully inside the canvas
+      wrapper.style.boxSizing = 'border-box';
+      wrapper.style.margin = '0 auto';
+
       const cartolaContainer = document.createElement('div');
-      // Place it in the normal flow below the viewport fold
-      cartolaContainer.style.position = 'relative';
-      cartolaContainer.style.width = '304mm'; // 330mm - 13mm * 2 (margins left/right)
-      cartolaContainer.style.height = '186mm'; // 216mm - 15mm * 2 (margins top/bottom)
+      cartolaContainer.style.width = '100%';
+      cartolaContainer.style.height = '100%';
+      cartolaContainer.style.border = '1px solid #000000'; // Draw the outer border on this container
+      cartolaContainer.style.boxSizing = 'border-box';
       cartolaContainer.style.backgroundColor = '#ffffff';
       cartolaContainer.style.color = '#000000';
-      cartolaContainer.style.margin = '0 auto';
-      cartolaContainer.style.padding = '4px'; // 4px safety buffer for borders
-      cartolaContainer.style.boxSizing = 'border-box';
+      cartolaContainer.style.display = 'flex';
 
       // Clone preview inner content to avoid cloning transformed wrapper class
       const cartolaClone = previewCartola.firstElementChild.cloneNode(true);
@@ -412,9 +420,11 @@ async function downloadPDFs() {
       cartolaClone.style.height = '100%';
       cartolaClone.style.boxSizing = 'border-box';
       cartolaClone.style.display = 'flex';
+      cartolaClone.style.border = 'none'; // Remove the border from the clone to prevent double borders
       
       cartolaContainer.appendChild(cartolaClone);
-      document.body.appendChild(cartolaContainer);
+      wrapper.appendChild(cartolaContainer);
+      document.body.appendChild(wrapper);
 
       // Wait for layout reflow and rendering
       await new Promise(resolve => setTimeout(resolve, 300));
@@ -435,8 +445,8 @@ async function downloadPDFs() {
         jsPDF: { unit: 'mm', format: [330, 216], orientation: 'landscape' }
       };
 
-      await html2pdf().set(optCartola).from(cartolaContainer).save();
-      document.body.removeChild(cartolaContainer);
+      await html2pdf().set(optCartola).from(wrapper).save();
+      document.body.removeChild(wrapper);
 
       // 2. Generate Carta Pages (Solicitud, Induccion, Comandancia)
       const previewSolicitud = document.getElementById('preview-solicitud');
