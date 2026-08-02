@@ -393,14 +393,13 @@ async function downloadPDFs() {
       const cartolaContainer = document.createElement('div');
       // Place it in the normal flow below the viewport fold
       cartolaContainer.style.position = 'relative';
-      cartolaContainer.style.width = '290mm'; // 330mm - 20mm * 2 (margins left/right with extra buffer for Windows)
-      cartolaContainer.style.height = '186mm'; // 216mm - 15mm * 2 (margins top/bottom)
+      cartolaContainer.style.width = '280mm'; // 330mm - 25mm * 2 (wider margins for Windows safety)
+      cartolaContainer.style.height = '185mm'; // Match the document height exactly
       cartolaContainer.style.backgroundColor = '#ffffff';
       cartolaContainer.style.color = '#000000';
       cartolaContainer.style.margin = '0';
-      cartolaContainer.style.padding = '0'; // Remove padding to avoid clipping borders
+      cartolaContainer.style.padding = '0';
       cartolaContainer.style.boxSizing = 'border-box';
-      cartolaContainer.style.overflow = 'hidden'; // Prevent any overflow
 
       // Clone preview inner content to avoid cloning transformed wrapper class
       const cartolaClone = previewCartola.firstElementChild.cloneNode(true);
@@ -421,16 +420,18 @@ async function downloadPDFs() {
       await new Promise(resolve => setTimeout(resolve, 300));
 
       const optCartola = {
-        margin: [15, 20, 15, 20], // Margen: 1.5cm sup/inf, 2.0cm izq/der (extra espacio para Windows compatibility)
+        margin: [15, 25, 15, 25], // Margen: 1.5cm sup/inf, 2.5cm izq/der (extra buffer for borders)
         filename: `1_Cartola_${workerName}_${workerRut}${suffix}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
+        image: { type: 'jpeg', quality: 0.95 },
         html2canvas: { 
-          scale: 1.5, // Reduced from 2 for Windows compatibility
+          scale: 1, // Use scale 1 for maximum compatibility
           useCORS: true, 
-          logging: true,
+          logging: false,
           scrollX: 0,
           scrollY: 0,
-          allowTaint: true
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          foreignObjectRendering: true
         },
         jsPDF: { unit: 'mm', format: [330, 216], orientation: 'landscape' }
       };
@@ -449,10 +450,10 @@ async function downloadPDFs() {
 
       const cartaContainer = document.createElement('div');
       cartaContainer.style.position = 'relative';
-      cartaContainer.style.width = '175.9mm'; // 215.9mm - 20mm * 2 (margins left/right)
+      cartaContainer.style.width = '165.9mm'; // 215.9mm - 25mm * 2 (wider margins for Windows)
       cartaContainer.style.backgroundColor = '#ffffff';
       cartaContainer.style.color = '#000000';
-      cartaContainer.style.margin = '0 auto';
+      cartaContainer.style.margin = '0';
 
       const page1 = previewSolicitud.firstElementChild.cloneNode(true);
       page1.className = 'printable-document solicitud-doc html2pdf__page-break';
@@ -490,16 +491,18 @@ async function downloadPDFs() {
       await new Promise(resolve => setTimeout(resolve, 300));
 
       const optCarta = {
-        margin: [5, 20, 5, 20], // Margen: 0.5cm sup/inf, 2.0cm izq/der
+        margin: [5, 25, 5, 25], // Margen: 0.5cm sup/inf, 2.5cm izq/der
         filename: `2_Documentos_Carta_${workerName}_${workerRut}${suffix}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
+        image: { type: 'jpeg', quality: 0.95 },
         html2canvas: { 
-          scale: 1.5, // Reduced from 2 for Windows compatibility
+          scale: 1, // Use scale 1 for maximum compatibility
           useCORS: true, 
-          logging: true,
+          logging: false,
           scrollX: 0,
           scrollY: 0,
-          allowTaint: true
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          foreignObjectRendering: true
         },
         jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' },
         pagebreak: { mode: ['css', 'legacy'] }
@@ -1377,7 +1380,7 @@ function generateCartolaHTML(data, tipo) {
   const titleType = getCartolaTitle(tipo);
   
   return `
-    <div class="printable-document cartola-doc" style="border: 1px solid #000; width: 100%; height: 193mm; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; font-family: Arial, Helvetica, sans-serif; background-color: #fff; color: #000; padding: 0;">
+    <div class="printable-document cartola-doc" style="border: 1px solid #000; width: 100%; height: 185mm; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; font-family: Arial, Helvetica, sans-serif; background-color: #fff; color: #000; padding: 0;">
       <!-- Bloque Superior: Huella/Foto/Firma + Datos Personales + Registro DGMN -->
       <table style="width: 100%; border-collapse: collapse; border-bottom: 1px solid #000; flex: 0 0 auto;">
         <tr>
